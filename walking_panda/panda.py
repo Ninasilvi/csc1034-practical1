@@ -4,8 +4,9 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from direct.actor.Actor import Actor
 
-class MyApp(ShowBase):
-    def __init__(self):
+
+class WalkingPanda(ShowBase):
+    def __init__(self, no_rotate=False):
         ShowBase.__init__(self)
 
         # Load the environment model.
@@ -17,7 +18,8 @@ class MyApp(ShowBase):
         self.scene.setPos(-8, 42, 0)
 
         # Add the spinCameraTask procedure to the task manager.
-        self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
+        if not no_rotate:
+            self.taskMgr.add(self.spinCameraTask, "SpinCameraTask")
 
         # Load and transform the panda actor.
         self.pandaActor = Actor("models/panda-model",
@@ -28,12 +30,10 @@ class MyApp(ShowBase):
         self.pandaActor.loop("walk")
 
     # Define a procedure to move the camera.
-    def spinCameraTask(self, task):
-        angleDegrees = task.time * 6.0
-        angleRadians = angleDegrees * (pi / 180.0)
-        self.camera.setPos(20 * sin(angleRadians), -20.0 * cos(angleRadians), 3)
-        self.camera.setHpr(angleDegrees, 0, 0)
-        return Task.cont
 
-app = MyApp()
-app.run()
+    def spinCameraTask(self, task):
+            angleDegrees = task.time * 6.0
+            angleRadians = angleDegrees * (pi / 180.0)
+            self.camera.setPos(20 * sin(angleRadians), -20.0 * cos(angleRadians), 3)
+            self.camera.setHpr(angleDegrees, 0, 0)
+            return Task.cont
