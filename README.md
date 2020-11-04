@@ -19,6 +19,3 @@ There are 5 different command line control options implemented into this program
 * `--env-scale` to change the environment's scale to 1 (makes it bigger);
 
 * `--sound-off` to toggle sound effects off (by default they are on).
-
-They are written after `python walking_panda.py` when running the program in the terminal.
-They also can be combined to be used together. (*example* - `python walking_panda.py --rotate-left --sound-off`)
