@@ -6,7 +6,7 @@ from direct.actor.Actor import Actor
 
 
 class WalkingPanda(ShowBase):
-    def __init__(self, no_rotate=False, panda_scale=False, env_scale=False,
+    def __init__(self, no_rotate=False, panda_scale=0.005, env_scale=0.25,
                  rotate_left=False, sound_off=False):
         ShowBase.__init__(self)
 
@@ -24,7 +24,7 @@ class WalkingPanda(ShowBase):
             self.taskMgr.add(self.spin_camera_task, "SpinCameraTask")
 
         # Add the left_spin_camera_task procedure to the task manager
-        # if --rotate-left command line control is used.
+        # if --rotate-left command line control option is used.
         if rotate_left:
             self.taskMgr.add(self.left_spin_camera_task, "LeftSpinCameraTask")
 
@@ -36,20 +36,20 @@ class WalkingPanda(ShowBase):
         # Loop its animation.
         self.pandaActor.loop("walk")
 
-        # Rescale panda if --scale command line control is used.
-        if panda_scale:
-            self.pandaActor.setScale(1, 1, 1)
+        # Rescale panda to input value if --panda-scale command line control option is used.
+        if panda_scale != 0.005:
+            self.pandaActor.setScale(panda_scale, panda_scale, panda_scale)
 
-        # Rescale environment if --env-scale command line control is used.
-        if env_scale:
-            self.scene.setScale(1, 1, 1)
+        # Rescale environment to input value if --env-scale command line control option is used.
+        if env_scale != 0.25:
+            self.scene.setScale(env_scale, env_scale, env_scale)
 
         # Load and play panda sound effects.
-        sound = self.loader.loadSfx("jungle_sounds.ogg")
+        sound = self.loader.loadSfx("jungle_sounds.mp3")
         sound.setLoop(True)
         sound.play()
 
-        # Toggle sound off if --sound-off command line control is used.
+        # Toggle sound off if --sound-off command line control option is used.
         if sound_off:
             sound.stop()
 
@@ -61,8 +61,7 @@ class WalkingPanda(ShowBase):
         self.camera.setHpr(angle_degrees, 0, 0)
         return Task.cont
 
-    # Define a procedure to change camera's rotation's direction
-    # for --rotate-left command line control.
+    # Define a procedure to change camera's rotation's direction for --rotate-left command line control option.
     def left_spin_camera_task(self, task):
         left_degrees = task.time * -6.0
         left_radians = left_degrees * (pi / 180.0)
