@@ -1,5 +1,5 @@
-#CSC1034: Practical 1
-
+CSC1034: Practical 1
+====================
 Portfolio 1
 ===========
 
